@@ -47,6 +47,7 @@ public class Principal extends javax.swing.JFrame {
         btnProximo = new javax.swing.JButton();
         btnUltimo = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,6 +103,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Alterar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,8 +118,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
                         .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,11 +176,13 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(btnProximo)
                     .addComponent(btnUltimo))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(366, 348));
+        setSize(new java.awt.Dimension(366, 394));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -274,12 +285,18 @@ public class Principal extends javax.swing.JFrame {
             conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/minhadb", "root", "root");
             JOptionPane.showMessageDialog(null, "Conexão efetuada com sucesso!");
             stmt = (Statement) conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            rs = stmt.executeQuery("Select * from curso"); //executando o comando sql
-            rs.first(); //estamos movendo o cursor para o primeiro registro pesquisado
-            txtSigla.setText(rs.getString("Sigla"));
-            txtNome.setText(rs.getString("Nome"));
-            txtDescricao.setText(rs.getString("Descricao"));
-
+            String sql = "INSERT INTO curso VALUES('"
+                    + txtSigla.getText() + "','"
+                    + txtNome.getText() + "','"
+                    + txtDescricao.getText() + "')";
+            JOptionPane.showMessageDialog(null, sql);
+            int i = 0;
+            i = stmt.executeUpdate(sql);
+            stmt.close();
+            
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Curso cadastrado com sucesso!");
+            }
         } catch (ClassNotFoundException e) {
             System.out.println(e);
         } catch (SQLException ex) {
@@ -287,6 +304,35 @@ public class Principal extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Connection conn = null;
+        Statement stmt;
+        String queryl = "UPDATE curso SET sigla";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/minhadb", "root", "root");
+            JOptionPane.showMessageDialog(null, "Conexão efetuada com sucesso!");
+            stmt = (Statement) conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String sql = queryl + "'" + txtSigla.getText() + "',"
+                    + "nome='" + txtNome.getText() + "',"
+                    + "descricao='" + txtNome.getText()
+                    + "' where sigla=" + "'" + txtSigla.getText() + "'";
+            JOptionPane.showMessageDialog(null, sql);
+            int i = 0;
+            i = stmt.executeUpdate(sql);
+            stmt.close();
+            
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Curso alterado com sucesso!");
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -330,6 +376,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnProximo;
     private javax.swing.JButton btnUltimo;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lblNome;
