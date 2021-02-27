@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 
-//Editador a Partir da WEB
-//Editado a partir do netbeans
 
 
 import java.util.logging.Level;
