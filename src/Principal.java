@@ -192,10 +192,10 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(366, 394));
+        setSize(new java.awt.Dimension(366, 340));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
